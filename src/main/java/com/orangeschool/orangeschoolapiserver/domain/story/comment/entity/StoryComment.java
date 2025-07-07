@@ -33,6 +33,7 @@ public class StoryComment extends CommonEntity {
 
     @OneToMany(mappedBy = "storyComment", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id asc")
+    @Builder.Default
     private Set<StoryReply> storyReplies = new HashSet<>();
 
     public void update(String content) {

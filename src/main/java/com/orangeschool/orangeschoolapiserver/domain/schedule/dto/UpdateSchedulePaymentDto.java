@@ -27,8 +27,11 @@ public class UpdateSchedulePaymentDto {
     @Schema(description = "일정 종료일", example = "2023-06-02", pattern = "yyyy-MM-dd", type = "string", required = true)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate endDate;
+
     @Schema(description = "하루종일", example = "false", required = true)
+    @Builder.Default
     private Boolean isAllDay = false;
+
     @Schema(description = "일정 구분", example = "ACADEMY", required = true)
     private ScheduleType scheduleType;
     @Schema(description = "컬러", example = "#FA8431", required = true)

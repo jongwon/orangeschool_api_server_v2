@@ -26,5 +26,7 @@ public class Location extends CommonEntity {
     
     @OneToMany(mappedBy = "location", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id asc")
+    @Builder.Default
     private Set<Banner> banners = new HashSet<>();
+
 }
