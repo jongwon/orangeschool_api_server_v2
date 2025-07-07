@@ -1,0 +1,63 @@
+server:
+  port: 8080
+
+spring-doc:
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  cache:
+    disabled: true
+  override-with-generic-response: false
+  swagger-ui:
+    path: /api/swagger
+    groups-order: DESC
+    doc-expansion: none
+    tags-sorter: alpha
+    operationsSorter: method
+    disable-swagger-default-url: true
+    display-query-params-without-oauth2: true
+    model-converters:
+      pageable-converter:
+        enabled: false
+
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 2000MB
+      max-request-size: 2000MB
+
+cloud:
+  aws:
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+    s3:
+      bucket: orangeschool-bucket
+      video-bucket: orangeschool-bucket
+    stack:
+      auto: false
+
+# 이미지 저장 경로 (폴더 경로)
+folderPath: "/home/orangeschool/orangeschool-api-server/static/files"
+#folderPath: "D:\\project\\2024\\orangeschool\\orange-school-api-server\\src\\main\\resources\\static\\files"
+# 서버 uri (서버아이피:포트)
+serverUri: "http://223.130.155.251:8080"
+#serverUri: "http://192.168.1.10:8080"
+# 이미지 리소스 경로 (리소스 경로의 폴더 경로)
+resourcePath: "/files"
+
+logging:
+  file:
+    path: ./logs
+  logback:
+    rollingpolicy:
+      max-file-size: 1GB
+      max-history: 60
+  level:
+    com:
+      amazonaws:
+        util:
+          EC2MetadataUtils: error

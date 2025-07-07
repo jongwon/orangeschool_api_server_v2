@@ -1,0 +1,34 @@
+package com.orangeschool.orangeschoolapiserver.domain.schoolSchedule.entity;
+
+import com.orangeschool.orangeschoolapiserver.common.entity.CommonEntity;
+import com.orangeschool.orangeschoolapiserver.domain.commonMember.entity.CommonMember;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+public class SchoolSchedule extends CommonEntity {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "commonMemberId")
+    private CommonMember commonMember;
+
+    private String keyStringValue;
+    private Boolean isImportant;
+    private String color;
+
+    public void update(Boolean isImportant, String color) {
+        this.isImportant = isImportant;
+        this.color = color;
+    }
+}

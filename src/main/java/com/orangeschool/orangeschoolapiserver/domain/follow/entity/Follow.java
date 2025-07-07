@@ -1,0 +1,31 @@
+package com.orangeschool.orangeschoolapiserver.domain.follow.entity;
+
+import com.orangeschool.orangeschoolapiserver.common.entity.CommonEntity;
+import com.orangeschool.orangeschoolapiserver.domain.commonMember.entity.CommonMember;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+public class Follow extends CommonEntity {
+
+    // 팔로우 하려는 사람
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "followingMemberId")
+    private CommonMember followingMember;
+
+    // 팔로우 당하는 사용자
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "followerMemberId")
+    private CommonMember followerMember;
+}
