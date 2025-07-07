@@ -1,0 +1,32 @@
+package com.orangeschool.infra.config;
+
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
+
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+
+@Configuration
+public class FCMConfig {
+
+    @Value("${fcmKeyPath}")
+    private String path;
+
+    @PostConstruct
+    public void init() {
+        try {
+            FirebaseOptions options = new FirebaseOptions.Builder()
+                    .setCredentials(GoogleCredentials.fromStream(new ClassPathResource(path).getInputStream())).build();
+
+            if (FirebaseApp.getApps().isEmpty()) {
+                FirebaseApp.initializeApp(options);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

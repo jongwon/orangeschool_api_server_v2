@@ -9,6 +9,12 @@ dependencies {
     // Validation
     api 'org.springframework.boot:spring-boot-starter-validation'
     
+    // Web (for exception handling)
+    api 'org.springframework.boot:spring-boot-starter-web'
+    
+    // Swagger
+    api 'org.springdoc:springdoc-openapi-ui:1.7.0'
+    
     // QueryDSL
     api "com.querydsl:querydsl-jpa:${querydslVersion}:jakarta"
     annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}:jakarta"

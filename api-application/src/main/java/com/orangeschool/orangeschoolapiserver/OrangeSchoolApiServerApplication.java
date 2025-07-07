@@ -21,4 +21,5 @@ public class OrangeSchoolApiServerApplication {
 	public void started() {
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
 	}
+
 }

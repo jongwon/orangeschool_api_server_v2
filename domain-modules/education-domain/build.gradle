@@ -4,9 +4,29 @@ plugins {
 
 dependencies {
     api project(':core-module:common-core')
-    implementation project(':domain-modules:member-domain')
+    api project(':core-module:auth-core')
+    api project(':domain-modules:education-domain-api')
+    
+    // API 인터페이스만 참조
+    implementation project(':domain-modules:member-domain-api')
+    implementation project(':domain-modules:support-domain-api')
     
     // Excel
     implementation 'org.apache.poi:poi:5.0.0'
     implementation 'org.apache.poi:poi-ooxml:5.0.0'
+}
+
+// QueryDSL 설정
+def querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
+}
+
+clean {
+    delete file(querydslDir)
 }

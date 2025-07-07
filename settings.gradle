@@ -6,10 +6,15 @@ include 'core-module:auth-core'
 
 // Domain modules
 include 'domain-modules:member-domain'
+include 'domain-modules:member-domain-api'
 include 'domain-modules:schedule-domain'
+include 'domain-modules:schedule-domain-api'
 include 'domain-modules:education-domain'
+include 'domain-modules:education-domain-api'
 include 'domain-modules:community-domain'
+include 'domain-modules:community-domain-api'
 include 'domain-modules:support-domain'
+include 'domain-modules:support-domain-api'
 
 // Infrastructure module
 include 'infra-module'

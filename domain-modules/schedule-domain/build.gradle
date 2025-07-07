@@ -4,5 +4,26 @@ plugins {
 
 dependencies {
     api project(':core-module:common-core')
-    implementation project(':domain-modules:member-domain')
+    api project(':core-module:auth-core')
+    api project(':domain-modules:schedule-domain-api')
+    
+    // API 인터페이스만 참조 (구현체는 참조하지 않음)
+    implementation project(':domain-modules:member-domain-api')
+    implementation project(':domain-modules:education-domain-api')
+    implementation project(':domain-modules:support-domain-api')
+}
+
+// QueryDSL 설정
+def querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets {
+    main.java.srcDir querydslDir
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
+}
+
+clean {
+    delete file(querydslDir)
 }

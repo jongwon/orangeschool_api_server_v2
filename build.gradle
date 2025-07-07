@@ -34,6 +34,7 @@ subprojects {
         compileOnly {
             extendsFrom annotationProcessor
         }
+        querydsl.extendsFrom compileClasspath
     }
 
     dependencyManagement {
@@ -55,5 +56,27 @@ subprojects {
 
     test {
         useJUnitPlatform()
+    }
+    
+    // QueryDSL 설정 - JPA를 사용하는 도메인 모듈에서만 적용
+    if (project.name.endsWith('-domain') && !project.name.endsWith('-domain-api')) {
+        dependencies {
+            implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+            implementation "com.querydsl:querydsl-jpa:${querydslVersion}:jakarta"
+            annotationProcessor "com.querydsl:querydsl-apt:${querydslVersion}:jakarta"
+            annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+            annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+        }
+        
+        // Q타입 생성 위치 설정
+        def querydslDir = "$buildDir/generated/sources/annotationProcessor/java/main"
+        
+        sourceSets {
+            main.java.srcDirs += querydslDir
+        }
+        
+        clean {
+            delete file(querydslDir)
+        }
     }
 }

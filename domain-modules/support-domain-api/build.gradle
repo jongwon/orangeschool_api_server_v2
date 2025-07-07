@@ -1,0 +1,45 @@
+plugins {
+    id 'java'
+    id 'java-library'
+}
+
+group = 'com.orangeschool'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    // Common Core
+    api project(':core-module:common-core')
+    
+    // Lombok
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    
+    // Spring Context (for @Service annotation)
+    implementation 'org.springframework:spring-context'
+    
+    // Spring Data Commons (for Pageable)
+    implementation 'org.springframework.data:spring-data-commons'
+    
+    // Firebase (for Notification)
+    implementation 'com.google.firebase:firebase-admin:9.2.0'
+}
+
+test {
+    useJUnitPlatform()
+}

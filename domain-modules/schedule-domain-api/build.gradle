@@ -1,0 +1,10 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api project(':core-module:common-core')
+    
+    // Validation
+    api 'org.springframework.boot:spring-boot-starter-validation'
+}
