@@ -1,0 +1,12 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api project(':core-module:common-core')
+    implementation project(':domain-modules:member-domain')
+    
+    // Excel
+    implementation 'org.apache.poi:poi:5.0.0'
+    implementation 'org.apache.poi:poi-ooxml:5.0.0'
+}

@@ -1,0 +1,14 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api project(':core-module:common-core')
+    api project(':core-module:auth-core')
+    
+    // Redis for session management
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    
+    // Email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+}

@@ -1,0 +1,36 @@
+plugins {
+    id 'org.springframework.boot' version "${springBootVersion}"
+}
+
+dependencies {
+    // Core modules
+    implementation project(':core-module:common-core')
+    implementation project(':core-module:auth-core')
+    
+    // Domain modules
+    implementation project(':domain-modules:member-domain')
+    implementation project(':domain-modules:schedule-domain')
+    implementation project(':domain-modules:education-domain')
+    implementation project(':domain-modules:community-domain')
+    implementation project(':domain-modules:support-domain')
+    
+    // Infrastructure
+    implementation project(':infra-module')
+    
+    // Web
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-ui:1.7.0'
+    
+    // Database drivers
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+    
+    // Test
+    testImplementation 'org.springframework.security:spring-security-test'
+}
+
+springBoot {
+    mainClass = 'com.orangeschool.orangeschoolapiserver.OrangeSchoolApiServerApplication'
+}

@@ -1,0 +1,14 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api project(':core-module:common-core')
+    
+    // Firebase FCM
+    api 'com.google.firebase:firebase-admin:9.1.1'
+    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    
+    // Redis
+    api 'org.springframework.boot:spring-boot-starter-data-redis'
+}

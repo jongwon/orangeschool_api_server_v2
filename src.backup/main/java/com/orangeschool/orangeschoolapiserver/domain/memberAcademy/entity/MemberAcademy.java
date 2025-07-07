@@ -1,0 +1,29 @@
+package com.orangeschool.orangeschoolapiserver.domain.memberAcademy.entity;
+
+import com.orangeschool.orangeschoolapiserver.common.entity.CommonEntity;
+import com.orangeschool.orangeschoolapiserver.domain.academy.entity.Academy;
+import com.orangeschool.orangeschoolapiserver.domain.commonMember.entity.CommonMember;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+public class MemberAcademy extends CommonEntity {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "commonMemberId")
+    private CommonMember commonMember;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "academyId")
+    private Academy academy;
+}

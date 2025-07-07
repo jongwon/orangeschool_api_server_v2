@@ -1,1 +1,18 @@
-rootProject.name = 'orange-school-api-server'
+rootProject.name = 'orangeschool-api-server'
+
+// Core modules
+include 'core-module:common-core'
+include 'core-module:auth-core'
+
+// Domain modules
+include 'domain-modules:member-domain'
+include 'domain-modules:schedule-domain'
+include 'domain-modules:education-domain'
+include 'domain-modules:community-domain'
+include 'domain-modules:support-domain'
+
+// Infrastructure module
+include 'infra-module'
+
+// API application
+include 'api-application'

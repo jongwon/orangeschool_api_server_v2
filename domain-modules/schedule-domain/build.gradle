@@ -1,0 +1,8 @@
+plugins {
+    id 'java-library'
+}
+
+dependencies {
+    api project(':core-module:common-core')
+    implementation project(':domain-modules:member-domain')
+}
