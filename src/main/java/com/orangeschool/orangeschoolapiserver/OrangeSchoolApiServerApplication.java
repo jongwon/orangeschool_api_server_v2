@@ -13,10 +13,6 @@ import java.util.TimeZone;
 @EnableScheduling
 public class OrangeSchoolApiServerApplication {
 
-	static {
-		System.setProperty("com.amazonaws.sdk.disableEc2Metadata", "true");
-	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(OrangeSchoolApiServerApplication.class, args);
 	}

@@ -4,23 +4,19 @@
 
 ## 기술 스택
 
-- Java 11
-- Spring Boot 2.7.15
+- Java 21
+- Spring Boot 3.3.6
 - MariaDB
 - Redis
-- AWS S3
 - FCM (Firebase Cloud Messaging)
 
 ## 시작하기
 
-### 필수 환경 변수
+### 필수 환경
 
-다음 환경 변수를 설정해야 합니다:
-
-```bash
-export AWS_ACCESS_KEY=your_aws_access_key
-export AWS_SECRET_KEY=your_aws_secret_key
-```
+- Java 21
+- MariaDB 또는 MySQL
+- Redis
 
 ### 로컬 환경 실행
 
@@ -66,7 +62,28 @@ src/main/java/com/orangeschool/orangeschoolapiserver/
 - 챌린지 시스템
 - 커뮤니티 (게시물, 댓글)
 - 푸시 알림
-- 파일 업로드/다운로드
+- 파일 업로드/다운로드 (로컬 파일 시스템)
+
+## 파일 저장 설정
+
+파일은 로컬 파일 시스템에 저장됩니다. `application.yml`에서 다음 설정을 환경에 맞게 수정하세요:
+
+```yaml
+# 파일 저장 경로
+folderPath: "/home/orangeschool/files"
+# 파일 접근 URL 경로
+resourcePath: "/files"
+# 서버 URL
+serverUri: "http://localhost:8080"
+```
+
+Rocky OS나 기타 Linux 서버에 배포 시 파일 저장 디렉토리에 적절한 권한을 설정해야 합니다:
+
+```bash
+sudo mkdir -p /home/orangeschool/files
+sudo chown -R orangeschool:orangeschool /home/orangeschool/files
+sudo chmod 755 /home/orangeschool/files
+```
 
 ## 개발 가이드
 
