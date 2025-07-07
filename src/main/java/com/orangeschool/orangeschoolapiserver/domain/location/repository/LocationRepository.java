@@ -10,4 +10,7 @@ public interface LocationRepository extends PagingAndSortingRepository<Location,
     Optional<Location> findByCode(long code);
 
     List<Location> findAll();
+
+    void saveAll(List<Location> locationList);
+
 }

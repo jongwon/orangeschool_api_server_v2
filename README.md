@@ -5,7 +5,7 @@
 ## 기술 스택
 
 - Java 21
-- Spring Boot 3.3.6
+- Spring Boot 2.7.18
 - MariaDB
 - Redis
 - FCM (Firebase Cloud Messaging)

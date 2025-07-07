@@ -10,4 +10,9 @@ import java.util.Optional;
 public interface TermsRepository extends PagingAndSortingRepository<Terms, Long>, TermsRepositoryCustom {
 
     List<Terms> findAll();
+
+    Optional<Terms> findById(long l);
+
+    void saveAll(List<Terms> termsList);
+
 }

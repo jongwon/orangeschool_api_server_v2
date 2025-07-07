@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Orange School API Server는 부모와 자녀가 함께 사용하는 교육 플랫폼 백엔드입니다. Spring Boot 3.3.6 기반의 REST API 서버로, 일정 관리, 학습 챌린지, 커뮤니티 기능을 제공합니다. Java 21을 사용합니다.
+Orange School API Server는 부모와 자녀가 함께 사용하는 교육 플랫폼 백엔드입니다. Spring Boot 2.7.18 기반의 REST API 서버로, 일정 관리, 학습 챌린지, 커뮤니티 기능을 제공합니다. Java 21을 사용합니다.
 
 ## 개발 환경 설정
 

@@ -62,4 +62,7 @@ public interface CommonMemberRepository extends PagingAndSortingRepository<Commo
     List<CommonMember> findByMatchingReferralCodes(@Param("myReferralCode") String myReferralCode);
 
     Long countByReferralCode(String myReferralCode);
+
+    Optional<CommonMember> findById(Long commonMemberId);
+
 }

@@ -11,4 +11,6 @@ public interface SchoolScheduleRepository extends PagingAndSortingRepository<Sch
     List<SchoolSchedule> findByCommonMemberId(Long commonMemberId);
 
     Optional<SchoolSchedule> findByCommonMemberIdAndKeyStringValue(Long commonMemberId, String keyStringValue);
+
+
 }
