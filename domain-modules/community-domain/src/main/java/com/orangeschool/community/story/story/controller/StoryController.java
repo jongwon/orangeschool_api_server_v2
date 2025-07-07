@@ -1,5 +1,6 @@
 package com.orangeschool.community.story.story;
 
+import com.orangeschool.community.story.story.service.StoryService;
 
 import com.orangeschool.common.dto.request.IdListDto;
 import com.orangeschool.common.dto.request.UpdateActivationDto;
@@ -33,7 +34,7 @@ import java.util.List;
 public class StoryController {
 
     private final StoryService storyService;
-    private final JwtTokenProvider jwtTokenProvider;
+    
 
     @Operation(summary = "등록")
     @PostMapping(value = "/user/story", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

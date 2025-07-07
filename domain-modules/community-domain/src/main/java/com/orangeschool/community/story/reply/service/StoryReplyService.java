@@ -1,10 +1,10 @@
-package com.orangeschool.community.story.reply;
+package com.orangeschool.community.story.reply.service;
 
+import com.orangeschool.member.api.service.MemberInfoProvider;
+import com.orangeschool.member.api.dto.MemberInfo;
 
 import com.orangeschool.common.response.CustomException;
 import com.orangeschool.common.response.ResponseCode;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import com.orangeschool.member.api.MemberInfoProvider;
 import com.orangeschool.community.story.comment.entity.StoryComment;
 import com.orangeschool.community.story.comment.repository.StoryCommentRepository;
 import com.orangeschool.community.story.reply.dto.CreateStoryReplyDto;

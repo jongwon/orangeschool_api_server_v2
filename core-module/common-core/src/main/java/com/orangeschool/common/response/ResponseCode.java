@@ -35,12 +35,16 @@ public enum ResponseCode {
     NOT_FOUND(404, "정보를 찾을 수 없습니다."),
     NOT_FOUND_MEMBER(404, "회원 정보를 찾을 수 없습니다."),
     NOT_FOUND_ACADEMY(404, "학원 정보를 찾을 수 없습니다."),
+    NOT_FOUND_USER(404, "사용자 정보를 찾을 수 없습니다."),
+    NOT_FOUND_FOLLOW(404, "팔로우 정보를 찾을 수 없습니다."),
 
     //409 CONFLICT 중복된 리소스
     CONFLICT_EMAIL(409, "이미 등록된 이메일입니다."),
     CONFLICT_ACCOUNT(409, "이미 등록된 아이디입니다."),
     CONFLICT_NICKNAME(409, "이미 등록된 닉네임입니다."),
     CONFLICT_PHONE_NUMBER(409, "이미 등록된 휴대폰 번호입니다."),
+    ALREADY_FOLLOWING(409, "이미 팔로우 중입니다."),
+    ALREADY_CHEERED_TODAY(409, "오늘 이미 응원했습니다."),
 
     //500 INTERNAL SERVER ERROR
     INTERNAL_SERVER_ERROR(500, "서버에 문제가 있습니다. 잠시후 다시 시도해주세요."),

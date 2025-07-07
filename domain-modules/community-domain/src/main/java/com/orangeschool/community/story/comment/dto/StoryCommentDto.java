@@ -1,47 +1,22 @@
 package com.orangeschool.community.story.comment.dto;
 
+import com.orangeschool.member.api.dto.MemberInfo;
+import com.orangeschool.community.story.reply.dto.StoryReplyDto;
+import lombok.*;
 
-import com.orangeschool.common.dto.response.CommonDto;
-import com.orangeschool.common.util.Functions;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import com.orangeschool.community.story.comment.entity.StoryComment;
-import lombok.Builder;
-import lombok.Data;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class StoryCommentDto extends CommonDto {
-
-    private Long memberId;
-    private String originFileName;
-    private String serverFileName;
-    private String fileUrl;
-    private String parentNickName;
+@EqualsAndHashCode(callSuper = false)
+public class StoryCommentDto {
+    private Long id;
+    private Long storyId;
+    private MemberInfo member;
     private String content;
-    private String dateTitle;
-    private int replyCount;
-
-    public static StoryCommentDto create(StoryComment storyComment) {
-
-        CommonMember commonMember = storyComment.getCommonMember();
-
-        StoryCommentDto storyCommentDto = StoryCommentDto.builder()
-                .memberId(commonMember.getId())
-                .originFileName(commonMember.getOriginFileName())
-                .serverFileName(commonMember.getServerFileName())
-                .fileUrl(commonMember.getFileUrl())
-                .parentNickName(commonMember.getParentNickName())
-                .content(storyComment.getContent())
-                .dateTitle(Functions.getInstance().getDateTitle(storyComment.getCreatedAt()))
-                .replyCount(storyComment.getStoryReplies().size())
-                .build();
-
-        storyCommentDto.setCreatedAt(storyComment.getCreatedAt());
-        storyCommentDto.setUpdatedAt(storyComment.getUpdatedAt());
-        storyCommentDto.setId(storyComment.getId());
-
-        return storyCommentDto;
-    }
-
-
+    private LocalDateTime createdAt;
+    private List<StoryReplyDto> replies;
 }

@@ -1,20 +1,17 @@
 package com.orangeschool.community.follow.repository;
 
-import com.orangeschool.member.commonMember.dto.CommonMemberProfileDto;
+import com.orangeschool.member.api.dto.MemberInfo;
+import com.orangeschool.member.api.service.MemberInfoProvider;
 import com.orangeschool.community.follow.entity.Follow;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.community.Page;
-import org.springframework.data.community.PageImpl;
-import org.springframework.data.community.Pageable;
-import org.springframework.data.community.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.orangeschool.community.follow.entity.QFollow.follow;
@@ -22,48 +19,55 @@ import static com.orangeschool.community.follow.entity.QFollow.follow;
 @Repository
 @RequiredArgsConstructor
 public class FollowRepositoryImpl implements FollowRepositoryCustom {
+
     private final JPAQueryFactory queryFactory;
+    private final MemberInfoProvider memberInfoProvider;
 
     @Override
-    public Page<CommonMemberProfileDto> search(Long followingMemberId, Pageable pageable) {
-
+    public Page<MemberInfo> searchFollowers(Long memberId, Pageable pageable) {
         List<Follow> follows = queryFactory
-                .select(follow)
-                .from(follow)
-                .where(
-                        follow.followingMember.id.eq(followingMemberId),
-                        follow.followerMember.challengeProgress.isTrue()
+            .selectFrom(follow)
+            .where(follow.followerMemberId.eq(memberId))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
 
-                )
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(getOrderSpecifiers(pageable.getSort()).stream().toArray(OrderSpecifier[]::new))
-                .fetch();
+        Long total = queryFactory
+            .select(follow.count())
+            .from(follow)
+            .where(follow.followerMemberId.eq(memberId))
+            .fetchOne();
 
-        long totalSize = queryFactory
-                .select(follow)
-                .from(follow)
-                .where(
-                        follow.followingMember.id.eq(followingMemberId),
-                        follow.followerMember.challengeProgress.isTrue()
-                )
-                .fetch()
-                .size();
+        List<MemberInfo> memberInfos = follows.stream()
+            .map(f -> memberInfoProvider.getMemberInfo(f.getFollowingMemberId()))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toList());
 
-        return new PageImpl<CommonMemberProfileDto>(follows.stream().map(
-                follow -> CommonMemberProfileDto.create(follow.getFollowerMember())).collect(Collectors.toList()), pageable, totalSize);
+        return new PageImpl<>(memberInfos, pageable, total != null ? total : 0L);
     }
 
-    private List<OrderSpecifier> getOrderSpecifiers(Sort sort) {
-        List<OrderSpecifier> orders = new ArrayList<>();
+    @Override
+    public Page<MemberInfo> searchFollowing(Long memberId, Pageable pageable) {
+        List<Follow> follows = queryFactory
+            .selectFrom(follow)
+            .where(follow.followingMemberId.eq(memberId))
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
 
-        sort.stream().forEach(order -> {
-            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
-            String prop = order.getProperty();
-            PathBuilder orderByExpression = new PathBuilder(Follow.class, "follow");
-            orders.add(new OrderSpecifier(direction, orderByExpression.get(prop)));
-        });
+        Long total = queryFactory
+            .select(follow.count())
+            .from(follow)
+            .where(follow.followingMemberId.eq(memberId))
+            .fetchOne();
 
-        return orders;
+        List<MemberInfo> memberInfos = follows.stream()
+            .map(f -> memberInfoProvider.getMemberInfo(f.getFollowerMemberId()))
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .collect(Collectors.toList());
+
+        return new PageImpl<>(memberInfos, pageable, total != null ? total : 0L);
     }
 }

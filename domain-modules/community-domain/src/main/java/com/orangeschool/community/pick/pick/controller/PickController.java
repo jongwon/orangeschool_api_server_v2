@@ -1,5 +1,6 @@
 package com.orangeschool.community.pick.pick;
 
+import com.orangeschool.community.pick.pick.service.PickService;
 import com.orangeschool.common.dto.request.IdListDto;
 import com.orangeschool.common.dto.request.UpdateActivationDto;
 import com.orangeschool.common.response.ResponseCode;
@@ -32,7 +33,7 @@ import java.util.List;
 public class PickController {
 
     private final PickService pickService;
-    private final JwtTokenProvider jwtTokenProvider;
+    
 
     // create
     @Operation(summary = "등록")

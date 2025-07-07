@@ -3,11 +3,11 @@ package com.orangeschool.community.story.story.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-import javax.validation.constraints.NotBlank;
+import lombok.EqualsAndHashCode;
+import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
-@Data
+@EqualsAndHashCode(callSuper = false)@Data
 public class UpdateStoryDto {
     @Schema(description = "제목", example = "게시글 제목1", required = true)
     @NotBlank

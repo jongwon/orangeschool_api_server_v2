@@ -4,9 +4,9 @@ package com.orangeschool.community.pick.like.dto;
 import com.orangeschool.common.dto.response.CommonDto;
 import com.orangeschool.community.pick.like.entity.PickLike;
 import lombok.Builder;
-import lombok.Data;
-
-@Data
+import lombok.EqualsAndHashCode;import lombok.Data;
+import lombok.EqualsAndHashCode;
+@EqualsAndHashCode(callSuper = false)@Data
 @Builder
 public class PickLikeDto extends CommonDto {
 

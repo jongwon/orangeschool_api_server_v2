@@ -3,10 +3,10 @@ package com.orangeschool.community.pick.pick.dto;
 import com.orangeschool.common.enums.PickType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import jakarta.validation.constraints.NotBlank;
 
-import javax.validation.constraints.NotBlank;
-
-@Data
+@EqualsAndHashCode(callSuper = false)@Data
 public class CreatePickDto {
 
     @Schema(description = "번호", example = "1", required = true)

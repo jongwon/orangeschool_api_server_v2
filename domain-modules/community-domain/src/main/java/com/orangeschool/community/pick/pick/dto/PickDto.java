@@ -5,12 +5,12 @@ import com.orangeschool.common.dto.response.CommonDto;
 import com.orangeschool.common.enums.PickType;
 import com.orangeschool.community.pick.pick.entity.Pick;
 import lombok.Builder;
-import lombok.Data;
-
+import lombok.EqualsAndHashCode;import lombok.Data;
+import lombok.EqualsAndHashCode;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+@EqualsAndHashCode(callSuper = false)@Data
 @Builder
 public class PickDto extends CommonDto {
 

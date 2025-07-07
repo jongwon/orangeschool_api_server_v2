@@ -1,12 +1,11 @@
-package com.orangeschool.community.story.comment;
+package com.orangeschool.community.story.comment.service;
 
+import com.orangeschool.member.api.service.MemberInfoProvider;
+import com.orangeschool.member.api.dto.MemberInfo;
 
 import com.google.firebase.messaging.Notification;
 import com.orangeschool.common.response.CustomException;
 import com.orangeschool.common.response.ResponseCode;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import com.orangeschool.member.api.MemberInfoProvider;
-import com.orangeschool.community.memberAlarm.MemberAlarmService;
 import com.orangeschool.community.story.comment.dto.CreateStoryCommentDto;
 import com.orangeschool.community.story.comment.dto.StoryCommentDto;
 import com.orangeschool.community.story.comment.dto.StoryCommentSearchDto;
@@ -32,7 +31,6 @@ public class StoryCommentService {
     private final StoryRepository storyRepository;
     private final MemberInfoProvider memberInfoProvider;
 
-    private final MemberAlarmService memberAlarmService;
 
     @Transactional
     public void create(Long commonMemberId, Long storyId, CreateStoryCommentDto createStoryCommentDto) throws Exception {

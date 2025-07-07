@@ -1,6 +1,6 @@
 package com.orangeschool.community.pick.pick.entity;
 
-import com.orangeschool.common.entity.CommonEntity;
+import com.orangeschool.common.entity.BaseEntity;
 import com.orangeschool.common.enums.PickType;
 import com.orangeschool.community.pick.comment.entity.PickComment;
 import com.orangeschool.community.pick.like.entity.PickLike;
@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Pick extends CommonEntity {
+public class Pick extends BaseEntity {
 
     private Long number;
     private PickType pickType;
@@ -43,14 +43,17 @@ public class Pick extends CommonEntity {
 
     @OneToMany(mappedBy = "pick", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id asc")
+    @Builder.Default
     private Set<PickImage> images = new HashSet<>();
 
     @OneToMany(mappedBy = "pick", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id desc")
+    @Builder.Default
     private Set<PickComment> pickComments = new HashSet<>();
 
     @OneToMany(mappedBy = "pick", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("id desc")
+    @Builder.Default
     private Set<PickLike> pickLikes = new HashSet<>();
 
     public void setFile(String originFileName, String serverFileName, String fileUrl) {

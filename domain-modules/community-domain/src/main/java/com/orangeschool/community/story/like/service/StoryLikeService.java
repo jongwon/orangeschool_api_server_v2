@@ -1,10 +1,10 @@
-package com.orangeschool.community.story.like;
+package com.orangeschool.community.story.like.service;
 
+import com.orangeschool.member.api.service.MemberInfoProvider;
+import com.orangeschool.member.api.dto.MemberInfo;
 
 import com.orangeschool.common.response.CustomException;
 import com.orangeschool.common.response.ResponseCode;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import com.orangeschool.member.api.MemberInfoProvider;
 import com.orangeschool.community.story.like.dto.StoryLikeDto;
 import com.orangeschool.community.story.like.dto.StoryLikeSearchDto;
 import com.orangeschool.community.story.like.entity.StoryLike;

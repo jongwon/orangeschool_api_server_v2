@@ -1,18 +1,26 @@
 package com.orangeschool.community.cheering.repository;
 
-import com.orangeschool.common.enums.CheeringMessage;
 import com.orangeschool.community.cheering.entity.Cheering;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
+@Repository
 public interface CheeringRepository extends JpaRepository<Cheering, Long>, CheeringRepositoryCustom {
-
-    Optional<Cheering> findByCheeringMemberIdAndCheeredMemberIdAndCheeringMessage(Long cheeringMemberId, Long cheeredMemberId, CheeringMessage cheeringMessage);
-
-    int countByCheeredMemberIdAndCheeringMessage(Long cheeredMemberId, CheeringMessage cheeringMessage);
     
-    Long countByCheeredMemberId(Long cheeredMemberId);
+    Page<Cheering> findByCheeredMemberId(Long cheeredMemberId, Pageable pageable);
     
-    boolean existsByCheeringMemberIdAndCheeredMemberId(Long cheeringMemberId, Long cheeredMemberId);
+    @Query("SELECT c FROM Cheering c WHERE c.cheeringMemberId = :cheeringMemberId " +
+           "AND c.cheeredMemberId = :cheeredMemberId " +
+           "AND DATE(c.createdAt) = CURRENT_DATE")
+    Optional<Cheering> findTodayCheeringBetweenMembers(
+        @Param("cheeringMemberId") Long cheeringMemberId, 
+        @Param("cheeredMemberId") Long cheeredMemberId
+    );
 }

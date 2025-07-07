@@ -1,5 +1,6 @@
 package com.orangeschool.community.pick.reply;
 
+import com.orangeschool.community.pick.reply.service.PickReplyService;
 
 import com.orangeschool.common.response.ResponseCode;
 import com.orangeschool.common.response.ResponseDto;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 public class PickReplyController {
 
     private final PickReplyService pickReplyService;
-    private final JwtTokenProvider jwtTokenProvider;
+    
 
 
     @Operation(summary = "등록")

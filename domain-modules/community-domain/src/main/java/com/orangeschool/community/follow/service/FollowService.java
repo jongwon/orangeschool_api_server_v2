@@ -1,9 +1,9 @@
-package com.orangeschool.community.follow;
+package com.orangeschool.community.follow.service;
 
+import com.orangeschool.member.api.service.MemberInfoProvider;
+import com.orangeschool.member.api.dto.MemberInfo;
 import com.orangeschool.common.response.CustomException;
 import com.orangeschool.common.response.ResponseCode;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import com.orangeschool.member.api.MemberInfoProvider;
 import com.orangeschool.community.follow.entity.Follow;
 import com.orangeschool.community.follow.repository.FollowRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,44 +12,66 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class FollowService {
 
     private final FollowRepository followRepository;
     private final MemberInfoProvider memberInfoProvider;
 
     @Transactional
-    public void follow(Long followingMemberId, Long followerMemberId) throws Exception {
-
-        if (followingMemberId == followerMemberId) {
+    public void follow(Long followingMemberId, Long followerMemberId) {
+        // 자기 자신을 팔로우할 수 없음
+        if (followingMemberId.equals(followerMemberId)) {
             throw new CustomException(ResponseCode.BAD_REQUEST);
         }
+        
+        // 회원 존재 여부 확인
+        Optional<MemberInfo> followingMember = memberInfoProvider.getMemberInfo(followingMemberId);
+        Optional<MemberInfo> followerMember = memberInfoProvider.getMemberInfo(followerMemberId);
 
-        Optional<CommonMember> followingMemberOptional = memberInfoProvider.getMemberInfo(followingMemberId);
-
-        if (followingMemberOptional.isEmpty()) {
-            throw new CustomException(ResponseCode.NOT_FOUND);
+        if (followingMember.isEmpty() || followerMember.isEmpty()) {
+            throw new CustomException(ResponseCode.NOT_FOUND_USER);
         }
 
-        Optional<CommonMember> followerMemberOptional = memberInfoProvider.getMemberInfo(followerMemberId);
+        // 이미 팔로우 중인지 확인
+        Optional<Follow> existingFollow = followRepository.findByFollowingMemberIdAndFollowerMemberId(
+            followingMemberId, followerMemberId
+        );
 
-        if (followerMemberOptional.isEmpty()) {
-            throw new CustomException(ResponseCode.NOT_FOUND);
+        if (existingFollow.isPresent()) {
+            throw new CustomException(ResponseCode.ALREADY_FOLLOWING);
         }
 
-        Optional<Follow> followOptional = followRepository
-                .findByFollowingMemberIdAndFollowerMemberId(followingMemberId, followerMemberId);
+        Follow follow = Follow.builder()
+            .followingMemberId(followingMemberId)
+            .followerMemberId(followerMemberId)
+            .build();
 
-        if (followOptional.isPresent()) {
-            followRepository.deleteById(followOptional.get().getId());
-        } else {
-            Follow follow = Follow.builder()
-                    .followingMember(followingMemberOptional.get())
-                    .followerMember(followerMemberOptional.get())
-                    .build();
+        followRepository.save(follow);
+    }
 
-            followRepository.save(follow);
-        }
+    @Transactional
+    public void unfollow(Long followingMemberId, Long followerMemberId) {
+        Follow follow = followRepository.findByFollowingMemberIdAndFollowerMemberId(
+            followingMemberId, followerMemberId
+        ).orElseThrow(() -> new CustomException(ResponseCode.NOT_FOUND_FOLLOW));
+
+        followRepository.delete(follow);
+    }
+
+    public boolean isFollowing(Long followingMemberId, Long followerMemberId) {
+        return followRepository.existsByFollowingMemberIdAndFollowerMemberId(
+            followingMemberId, followerMemberId
+        );
+    }
+
+    public Long countFollowers(Long memberId) {
+        return followRepository.countByFollowerMemberId(memberId);
+    }
+
+    public Long countFollowing(Long memberId) {
+        return followRepository.countByFollowingMemberId(memberId);
     }
 }

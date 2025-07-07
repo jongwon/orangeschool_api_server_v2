@@ -1,10 +1,10 @@
-package com.orangeschool.community.pick.like;
+package com.orangeschool.community.pick.like.service;
 
+import com.orangeschool.member.api.service.MemberInfoProvider;
+import com.orangeschool.member.api.dto.MemberInfo;
 
 import com.orangeschool.common.response.CustomException;
 import com.orangeschool.common.response.ResponseCode;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import com.orangeschool.member.api.MemberInfoProvider;
 import com.orangeschool.community.pick.like.dto.PickLikeDto;
 import com.orangeschool.community.pick.like.dto.PickLikeSearchDto;
 import com.orangeschool.community.pick.like.entity.PickLike;

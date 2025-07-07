@@ -1,15 +1,11 @@
 package com.orangeschool.community.story.comment.entity;
 
-import com.orangeschool.common.entity.CommonEntity;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import com.orangeschool.community.story.reply.entity.StoryReply;
+import com.orangeschool.common.entity.BaseEntity;
 import com.orangeschool.community.story.story.entity.Story;
-import lombok.AllArgsConstructor;
+import com.orangeschool.community.story.reply.entity.StoryReply;
+import lombok.*;
 import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,24 +14,17 @@ import java.util.Set;
 @AllArgsConstructor
 @Builder
 @Entity
-public class StoryComment extends CommonEntity {
+public class StoryComment extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "commonMemberId")
-    private CommonMember commonMember;
+    private Long memberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storyId")
     private Story story;
 
-    @Column(columnDefinition = "LONGTEXT")
     private String content;
 
     @OneToMany(mappedBy = "storyComment", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderBy("id asc")
+    @Builder.Default
     private Set<StoryReply> storyReplies = new HashSet<>();
-
-    public void update(String content) {
-        this.content = content;
-    }
 }

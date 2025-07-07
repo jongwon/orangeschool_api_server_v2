@@ -3,9 +3,9 @@ package com.orangeschool.community.pick.pick.dto;
 import com.orangeschool.common.dto.response.CommonDto;
 import com.orangeschool.community.pick.pick.entity.PickImage;
 import lombok.Builder;
-import lombok.Data;
-
-@Data
+import lombok.EqualsAndHashCode;import lombok.Data;
+import lombok.EqualsAndHashCode;
+@EqualsAndHashCode(callSuper = false)@Data
 @Builder
 //상품이미지
 public class PickImageDto extends CommonDto {

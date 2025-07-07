@@ -4,8 +4,8 @@ package com.orangeschool.community.story.story.dto;
 import com.orangeschool.common.dto.request.KeywordSearchDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-@Data
+import lombok.EqualsAndHashCode;
+@EqualsAndHashCode(callSuper = false)@Data
 public class StorySearchDto extends KeywordSearchDto {
 
     @Schema(description = "시군구 value 배열", example = "#11680#51150#11305", required = false)

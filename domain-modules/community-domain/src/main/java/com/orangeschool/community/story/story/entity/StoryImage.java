@@ -1,19 +1,19 @@
 package com.orangeschool.community.story.story.entity;
 
-import com.orangeschool.common.entity.CommonEntity;
+import com.orangeschool.common.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class StoryImage extends CommonEntity {
+public class StoryImage extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storyId")

@@ -1,40 +1,22 @@
 package com.orangeschool.community.cheering.dto;
 
-import com.orangeschool.common.dto.response.CommonDto;
-import com.orangeschool.common.enums.MemberType;
-import com.orangeschool.community.cheering.entity.Cheering;
-import com.orangeschool.member.commonMember.dto.CommonMemberDto;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import lombok.Builder;
-import lombok.Data;
+import com.orangeschool.common.enums.CheeringMessage;
+import com.orangeschool.member.api.dto.MemberInfo;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;import lombok.Builder;
+import lombok.EqualsAndHashCode;import lombok.Data;
+import lombok.EqualsAndHashCode;import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import java.time.LocalDateTime;
 
-@Data
+@EqualsAndHashCode(callSuper = false)@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class CheeringDto extends CommonDto {
-
-    private String name;
-    private String nickName;
-
-    private Long commonMemberId;
-    private MemberType memberType;
-    private String memberTypeTitle;
-    private String fileUrl;
-
-    public static CheeringDto create(Cheering cheering) {
-
-        CheeringDto cheeringDto = CheeringDto.builder()
-                .name(cheering.getCheeringMember().getName())
-                .nickName(cheering.getCheeringMember().getNickName())
-                .commonMemberId(cheering.getCheeringMember().getId())
-                .memberType(cheering.getCheeringMember().getMemberType())
-                .memberTypeTitle(cheering.getCheeringMember().getMemberType().getTitle())
-                .fileUrl(cheering.getCheeringMember().getFileUrl())
-                .build();
-
-        cheeringDto.setCreatedAt(cheering.getCreatedAt());
-        cheeringDto.setUpdatedAt(cheering.getUpdatedAt());
-        cheeringDto.setId(cheering.getId());
-
-        return cheeringDto;
-    }
+public class CheeringDto {
+    private Long id;
+    private MemberInfo cheeringMember;
+    private MemberInfo cheeredMember;
+    private CheeringMessage message;
+    private LocalDateTime createdAt;
 }

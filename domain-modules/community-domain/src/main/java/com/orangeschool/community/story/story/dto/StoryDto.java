@@ -2,16 +2,14 @@ package com.orangeschool.community.story.story.dto;
 
 
 import com.orangeschool.common.dto.response.CommonDto;
-import com.orangeschool.common.util.Functions;
-import com.orangeschool.member.commonMember.entity.CommonMember;
 import com.orangeschool.community.story.story.entity.Story;
 import lombok.Builder;
-import lombok.Data;
-
+import lombok.EqualsAndHashCode;import lombok.Data;
+import lombok.EqualsAndHashCode;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+@EqualsAndHashCode(callSuper = false)@Data
 @Builder
 public class StoryDto extends CommonDto {
 

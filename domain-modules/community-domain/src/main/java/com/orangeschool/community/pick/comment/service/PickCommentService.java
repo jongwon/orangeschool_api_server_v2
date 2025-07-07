@@ -1,10 +1,10 @@
-package com.orangeschool.community.pick.comment;
+package com.orangeschool.community.pick.comment.service;
 
+import com.orangeschool.member.api.service.MemberInfoProvider;
+import com.orangeschool.member.api.dto.MemberInfo;
 
 import com.orangeschool.common.response.CustomException;
 import com.orangeschool.common.response.ResponseCode;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import com.orangeschool.member.api.MemberInfoProvider;
 import com.orangeschool.community.pick.comment.dto.CreatePickCommentDto;
 import com.orangeschool.community.pick.comment.dto.PickCommentDto;
 import com.orangeschool.community.pick.comment.dto.PickCommentSearchDto;

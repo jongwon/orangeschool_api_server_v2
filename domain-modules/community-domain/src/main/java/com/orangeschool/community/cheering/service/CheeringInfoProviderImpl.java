@@ -1,8 +1,8 @@
 package com.orangeschool.community.cheering.service;
 
-import com.orangeschool.community.api.dto.CheeringInfo;
+import com.orangeschool.common.enums.CheeringMessage;
 import com.orangeschool.community.api.service.CheeringInfoProvider;
-import com.orangeschool.community.cheering.dto.CheeringDto;
+import com.orangeschool.community.api.dto.CheeringInfo;
 import com.orangeschool.community.cheering.repository.CheeringRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,27 +18,19 @@ public class CheeringInfoProviderImpl implements CheeringInfoProvider {
     private final CheeringRepository cheeringRepository;
 
     @Override
-    public Page<CheeringInfo> getCheeringsForMember(Long cheeredMemberId, Pageable pageable) {
-        Page<CheeringDto> cheeringDtos = cheeringRepository.search(cheeredMemberId, pageable);
-        
-        return cheeringDtos.map(dto -> CheeringInfo.builder()
-                .id(dto.getId())
-                .cheeringMemberId(dto.getCheeringMemberId())
-                .cheeringMemberNickname(dto.getCheeringMemberNickname())
-                .cheeringMemberProfileImage(dto.getCheeringMemberProfileImage())
-                .cheeredMemberId(cheeredMemberId)
-                .cheeringMessage(dto.getCheeringMessage())
-                .createdAt(dto.getCreatedAt())
-                .build());
+    public int countCheeringByType(Long memberId, CheeringMessage cheeringMessage) {
+        return cheeringRepository.countByCheeredMemberIdAndCheeringMessage(memberId, cheeringMessage);
     }
 
     @Override
-    public Long getCheeringCount(Long cheeredMemberId) {
-        return cheeringRepository.countByCheeredMemberId(cheeredMemberId);
+    public boolean hasCheered(Long cheeringMemberId, Long cheeredMemberId, CheeringMessage cheeringMessage) {
+        return cheeringRepository.findByCheeringMemberIdAndCheeredMemberIdAndCheeringMessage(
+                cheeringMemberId, cheeredMemberId, cheeringMessage).isPresent();
     }
 
     @Override
-    public boolean isCheeringExists(Long cheeringMemberId, Long cheeredMemberId) {
-        return cheeringRepository.existsByCheeringMemberIdAndCheeredMemberId(cheeringMemberId, cheeredMemberId);
+    public Page<CheeringInfo> getCheeringList(Long memberId, Pageable pageable) {
+        // TODO: 추후 구현
+        return Page.empty();
     }
 }

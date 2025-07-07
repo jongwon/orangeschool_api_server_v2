@@ -4,8 +4,8 @@ import com.orangeschool.common.dto.request.KeywordSearchDto;
 import com.orangeschool.common.enums.PickType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-@Data
+import lombok.EqualsAndHashCode;
+@EqualsAndHashCode(callSuper = false)@Data
 public class PickFilterDto extends KeywordSearchDto {
 
     @Schema(description = "구분", example = "NONE")

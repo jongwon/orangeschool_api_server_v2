@@ -2,66 +2,40 @@ package com.orangeschool.community.cheering.repository;
 
 import com.orangeschool.community.cheering.dto.CheeringDto;
 import com.orangeschool.community.cheering.entity.Cheering;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.community.Page;
-import org.springframework.data.community.PageImpl;
-import org.springframework.data.community.Pageable;
-import org.springframework.data.community.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.orangeschool.community.cheering.entity.QCheering.cheering;
 
 @Repository
 @RequiredArgsConstructor
 public class CheeringRepositoryImpl implements CheeringRepositoryCustom {
+
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<CheeringDto> search(Long cheeredMemberId, Pageable pageable) {
+    public Page<CheeringDto> searchCheering(Long memberId, Pageable pageable) {
+        List<Cheering> cheeringList = queryFactory
+            .selectFrom(cheering)
+            .where(cheering.cheeredMemberId.eq(memberId))
+            .orderBy(cheering.createdAt.desc())
+            .offset(pageable.getOffset())
+            .limit(pageable.getPageSize())
+            .fetch();
 
-        List<Cheering> cheerings = queryFactory
-                .select(cheering)
-                .from(cheering)
-                .where(
-                        cheering.cheeredMember.id.eq(cheeredMemberId)
+        Long total = queryFactory
+            .select(cheering.count())
+            .from(cheering)
+            .where(cheering.cheeredMemberId.eq(memberId))
+            .fetchOne();
 
-                )
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(getOrderSpecifiers(pageable.getSort()).stream().toArray(OrderSpecifier[]::new))
-                .fetch();
-
-        long totalSize = queryFactory
-                .select(cheering)
-                .from(cheering)
-                .where(
-                        cheering.cheeredMember.id.eq(cheeredMemberId)
-                )
-                .fetch()
-                .size();
-
-        return new PageImpl<CheeringDto>(cheerings.stream().map(
-                CheeringDto::create).collect(Collectors.toList()), pageable, totalSize);
-    }
-
-    private List<OrderSpecifier> getOrderSpecifiers(Sort sort) {
-        List<OrderSpecifier> orders = new ArrayList<>();
-
-        sort.stream().forEach(order -> {
-            Order direction = order.isAscending() ? Order.ASC : Order.DESC;
-            String prop = order.getProperty();
-            PathBuilder orderByExpression = new PathBuilder(Cheering.class, "cheering");
-            orders.add(new OrderSpecifier(direction, orderByExpression.get(prop)));
-        });
-
-        return orders;
+        // Note: CheeringDto 변환은 서비스 레이어에서 처리
+        return new PageImpl<>(cheeringList, pageable, total != null ? total : 0L);
     }
 }

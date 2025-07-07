@@ -3,8 +3,8 @@ package com.orangeschool.community.pick.comment.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-@Data
+import lombok.EqualsAndHashCode;
+@EqualsAndHashCode(callSuper = false)@Data
 public class UpdatePickCommentDto {
 
 

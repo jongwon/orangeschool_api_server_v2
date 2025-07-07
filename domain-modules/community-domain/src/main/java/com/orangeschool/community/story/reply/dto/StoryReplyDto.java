@@ -1,48 +1,19 @@
 package com.orangeschool.community.story.reply.dto;
 
+import com.orangeschool.member.api.dto.MemberInfo;
+import lombok.*;
 
-import com.orangeschool.common.dto.response.CommonDto;
-import com.orangeschool.common.util.Functions;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import com.orangeschool.community.story.reply.entity.StoryReply;
-import lombok.Builder;
-import lombok.Data;
+import java.time.LocalDateTime;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class StoryReplyDto extends CommonDto {
-
-    private Long memberId;
-    private String originFileName;
-    private String serverFileName;
-    private String fileUrl;
-    private String parentNickName;
-    private String receiverNickname;
+@EqualsAndHashCode(callSuper = false)
+public class StoryReplyDto {
+    private Long id;
+    private Long storyCommentId;
+    private MemberInfo member;
     private String content;
-    private String dateTitle;
-
-    public static StoryReplyDto create(StoryReply storyReply) {
-
-        CommonMember sender = storyReply.getSender();
-        CommonMember receiver = storyReply.getReceiver();
-
-        StoryReplyDto storyReplyDto = StoryReplyDto.builder()
-                .memberId(sender.getId())
-                .originFileName(sender.getOriginFileName())
-                .serverFileName(sender.getServerFileName())
-                .fileUrl(sender.getFileUrl())
-                .parentNickName(sender.getParentNickName())
-                .receiverNickname(receiver.getNickName())
-                .content(storyReply.getContent())
-                .dateTitle(Functions.getInstance().getDateTitle(storyReply.getCreatedAt()))
-                .build();
-
-        storyReplyDto.setCreatedAt(storyReply.getCreatedAt());
-        storyReplyDto.setUpdatedAt(storyReply.getUpdatedAt());
-        storyReplyDto.setId(storyReply.getId());
-
-        return storyReplyDto;
-    }
-
-
+    private LocalDateTime createdAt;
 }

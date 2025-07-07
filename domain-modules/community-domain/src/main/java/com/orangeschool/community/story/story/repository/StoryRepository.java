@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 
 public interface StoryRepository extends JpaRepository<Story, Long>, StoryRepositoryCustom {
 

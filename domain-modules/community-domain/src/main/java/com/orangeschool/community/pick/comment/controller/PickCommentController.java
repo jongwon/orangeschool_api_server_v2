@@ -1,9 +1,9 @@
-package com.orangeschool.community.pick.comment;
+package com.orangeschool.community.pick.comment.controller;
 
+import com.orangeschool.community.pick.comment.service.PickCommentService;
 
 import com.orangeschool.common.response.ResponseCode;
 import com.orangeschool.common.response.ResponseDto;
-import com.orangeschool.auth.util.JwtTokenProvider;
 import com.orangeschool.community.pick.comment.dto.CreatePickCommentDto;
 import com.orangeschool.community.pick.comment.dto.PickCommentDto;
 import com.orangeschool.community.pick.comment.dto.PickCommentSearchDto;
@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.*;
 public class PickCommentController {
 
     private final PickCommentService pickCommentService;
-    private final JwtTokenProvider jwtTokenProvider;
+    
 
 
     @Operation(summary = "등록")

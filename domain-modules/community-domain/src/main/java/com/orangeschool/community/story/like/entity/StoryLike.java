@@ -1,28 +1,22 @@
 package com.orangeschool.community.story.like.entity;
 
-import com.orangeschool.common.entity.CommonEntity;
-import com.orangeschool.member.commonMember.entity.CommonMember;
+import com.orangeschool.common.entity.BaseEntity;
 import com.orangeschool.community.story.story.entity.Story;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class StoryLike extends CommonEntity {
+public class StoryLike extends BaseEntity {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "commonMemberId")
-    private CommonMember commonMember;
+    private Long memberId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "storyId")

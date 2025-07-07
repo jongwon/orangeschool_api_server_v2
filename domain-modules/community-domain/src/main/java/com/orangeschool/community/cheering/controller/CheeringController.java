@@ -3,11 +3,10 @@ package com.orangeschool.community.cheering.controller;
 import com.orangeschool.common.response.ResponseCode;
 import com.orangeschool.common.response.ResponseDto;
 import com.orangeschool.auth.util.JwtTokenProvider;
-import com.orangeschool.community.cheering.CheeringService;
+
 import com.orangeschool.community.cheering.dto.CheeringDto;
 import com.orangeschool.community.cheering.dto.CheeringRequestDto;
-import com.orangeschool.member.commonMember.dto.CommonMemberProfileDto;
-import com.orangeschool.member.commonMember.dto.TownFriendFilterDto;
+import com.orangeschool.community.cheering.service.CheeringService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 public class CheeringController {
 
     private final CheeringService cheeringService;
-    private final JwtTokenProvider jwtTokenProvider;
+    
 
     // create
     @Operation(summary = "친구 응원/취소")

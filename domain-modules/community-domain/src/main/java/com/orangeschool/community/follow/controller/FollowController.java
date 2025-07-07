@@ -1,5 +1,6 @@
 package com.orangeschool.community.follow;
 
+import com.orangeschool.community.follow.service.FollowService;
 import com.orangeschool.common.response.ResponseCode;
 import com.orangeschool.common.response.ResponseDto;
 import com.orangeschool.auth.util.JwtTokenProvider;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class FollowController {
 
     private final FollowService followService;
-    private final JwtTokenProvider jwtTokenProvider;
+    
 
     // create
     @Operation(summary = "친구 추가/취소")

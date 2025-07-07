@@ -1,19 +1,19 @@
 package com.orangeschool.community.pick.pick.entity;
 
-import com.orangeschool.common.entity.CommonEntity;
+import com.orangeschool.common.entity.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class PickImage extends CommonEntity {
+public class PickImage extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pickId")

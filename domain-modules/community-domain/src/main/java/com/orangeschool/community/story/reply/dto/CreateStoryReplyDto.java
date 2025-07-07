@@ -3,8 +3,8 @@ package com.orangeschool.community.story.reply.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
-
-@Data
+import lombok.EqualsAndHashCode;
+@EqualsAndHashCode(callSuper = false)@Data
 public class CreateStoryReplyDto {
 
     @Schema(description = "답글 대상 회원 고유 아이디", example = "1", required = true)

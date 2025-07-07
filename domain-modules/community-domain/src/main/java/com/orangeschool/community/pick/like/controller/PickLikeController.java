@@ -1,5 +1,6 @@
 package com.orangeschool.community.pick.like;
 
+import com.orangeschool.community.pick.like.service.PickLikeService;
 
 import com.orangeschool.common.response.ResponseCode;
 import com.orangeschool.common.response.ResponseDto;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 public class PickLikeController {
 
     private final PickLikeService pickLikeService;
-    private final JwtTokenProvider jwtTokenProvider;
+    
 
 
     @Operation(summary = "등록")

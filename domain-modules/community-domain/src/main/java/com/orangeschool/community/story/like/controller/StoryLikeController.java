@@ -1,5 +1,6 @@
 package com.orangeschool.community.story.like;
 
+import com.orangeschool.community.story.like.service.StoryLikeService;
 
 import com.orangeschool.common.response.ResponseCode;
 import com.orangeschool.common.response.ResponseDto;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 public class StoryLikeController {
 
     private final StoryLikeService storyLikeService;
-    private final JwtTokenProvider jwtTokenProvider;
+    
 
 
     @Operation(summary = "등록")

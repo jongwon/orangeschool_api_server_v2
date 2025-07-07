@@ -1,13 +1,13 @@
-package com.orangeschool.community.cheering;
+package com.orangeschool.community.cheering.service;
 
+import com.orangeschool.member.api.service.MemberInfoProvider;
+import com.orangeschool.member.api.dto.MemberInfo;
 import com.orangeschool.common.response.CustomException;
 import com.orangeschool.common.response.ResponseCode;
 import com.orangeschool.community.cheering.dto.CheeringDto;
 import com.orangeschool.community.cheering.dto.CheeringRequestDto;
 import com.orangeschool.community.cheering.entity.Cheering;
 import com.orangeschool.community.cheering.repository.CheeringRepository;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import com.orangeschool.member.api.MemberInfoProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,50 +16,75 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CheeringService {
 
     private final CheeringRepository cheeringRepository;
     private final MemberInfoProvider memberInfoProvider;
 
     @Transactional
-    public void cheering(Long cheeringMemberId, Long cheeredMemberId, CheeringRequestDto cheeringRequestDto) throws Exception {
-
-        if (cheeringMemberId == cheeredMemberId) {
+    public CheeringDto createCheering(CheeringRequestDto requestDto) {
+        // 자기 자신을 응원할 수 없음
+        if (requestDto.getCheeringMemberId().equals(requestDto.getCheeredMemberId())) {
             throw new CustomException(ResponseCode.BAD_REQUEST);
         }
+        
+        // 회원 존재 여부 확인
+        Optional<MemberInfo> cheeringMemberOpt = memberInfoProvider.getMemberInfo(requestDto.getCheeringMemberId());
+        Optional<MemberInfo> cheeredMemberOpt = memberInfoProvider.getMemberInfo(requestDto.getCheeredMemberId());
 
-        Optional<CommonMember> cheeringMemberOptional = memberInfoProvider.getMemberInfo(cheeringMemberId);
+        if (cheeringMemberOpt.isEmpty() || cheeredMemberOpt.isEmpty()) {
+            throw new CustomException(ResponseCode.NOT_FOUND_USER);
+        }
+        
+        MemberInfo cheeringMember = cheeringMemberOpt.get();
+        MemberInfo cheeredMember = cheeredMemberOpt.get();
 
-        if (cheeringMemberOptional.isEmpty()) {
-            throw new CustomException(ResponseCode.NOT_FOUND);
+        // 오늘 이미 응원했는지 확인
+        Optional<Cheering> todayCheering = cheeringRepository.findTodayCheeringBetweenMembers(
+            requestDto.getCheeringMemberId(), 
+            requestDto.getCheeredMemberId()
+        );
+
+        if (todayCheering.isPresent()) {
+            throw new CustomException(ResponseCode.ALREADY_CHEERED_TODAY);
         }
 
-        Optional<CommonMember> cheeredMemberOptional = memberInfoProvider.getMemberInfo(cheeredMemberId);
+        Cheering cheering = Cheering.builder()
+            .cheeringMemberId(requestDto.getCheeringMemberId())
+            .cheeredMemberId(requestDto.getCheeredMemberId())
+            .message(requestDto.getMessage())
+            .build();
 
-        if (cheeredMemberOptional.isEmpty()) {
-            throw new CustomException(ResponseCode.NOT_FOUND);
-        }
+        cheering = cheeringRepository.save(cheering);
 
-        Optional<Cheering> cheeringOptional = cheeringRepository
-                .findByCheeringMemberIdAndCheeredMemberIdAndCheeringMessage(cheeringMemberId, cheeredMemberId, cheeringRequestDto.getCheeringMessage());
-
-        if (cheeringOptional.isPresent()) {
-            cheeringRepository.deleteById(cheeringOptional.get().getId());
-        } else {
-            Cheering cheering = Cheering.builder()
-                    .cheeringMember(cheeringMemberOptional.get())
-                    .cheeredMember(cheeredMemberOptional.get())
-                    .cheeringMessage(cheeringRequestDto.getCheeringMessage())
-                    .build();
-
-            cheeringRepository.save(cheering);
-        }
+        return convertToDto(cheering, cheeringMember, cheeredMember);
     }
 
-    @Transactional(readOnly = true)
-    public Page<CheeringDto> get(Long cheeredId, Pageable pageable) throws Exception {
-        return cheeringRepository.search(cheeredId, pageable);
+    public Page<CheeringDto> getCheeringList(Long memberId, Pageable pageable) {
+        Page<Cheering> cheeringPage = cheeringRepository.findByCheeredMemberId(memberId, pageable);
+
+        return cheeringPage.map(cheering -> {
+            Optional<MemberInfo> cheeringMemberOpt = memberInfoProvider.getMemberInfo(cheering.getCheeringMemberId());
+            Optional<MemberInfo> cheeredMemberOpt = memberInfoProvider.getMemberInfo(cheering.getCheeredMemberId());
+            
+            // 회원 정보가 없는 경우 기본값 처리
+            MemberInfo cheeringMember = cheeringMemberOpt.orElse(null);
+            MemberInfo cheeredMember = cheeredMemberOpt.orElse(null);
+            
+            return convertToDto(cheering, cheeringMember, cheeredMember);
+        });
+    }
+
+    private CheeringDto convertToDto(Cheering cheering, MemberInfo cheeringMember, MemberInfo cheeredMember) {
+        return CheeringDto.builder()
+            .id(cheering.getId())
+            .cheeringMember(cheeringMember)
+            .cheeredMember(cheeredMember)
+            .message(cheering.getMessage())
+            .createdAt(cheering.getCreatedAt())
+            .build();
     }
 }

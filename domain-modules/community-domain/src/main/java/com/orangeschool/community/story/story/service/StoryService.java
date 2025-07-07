@@ -1,13 +1,13 @@
-package com.orangeschool.community.story.story;
+package com.orangeschool.community.story.story.service;
 
+import com.orangeschool.member.api.service.MemberInfoProvider;
+import com.orangeschool.member.api.dto.MemberInfo;
 
 import com.orangeschool.common.dto.request.IdListDto;
 import com.orangeschool.common.dto.request.UpdateActivationDto;
 import com.orangeschool.common.response.CustomException;
 import com.orangeschool.common.response.ResponseCode;
-import com.orangeschool.common.utils.FileManagement;
-import com.orangeschool.member.commonMember.entity.CommonMember;
-import com.orangeschool.member.api.MemberInfoProvider;
+import com.orangeschool.infra.util.FileManagement;
 import com.orangeschool.community.story.story.dto.CreateStoryDto;
 import com.orangeschool.community.story.story.dto.StoryDto;
 import com.orangeschool.community.story.story.dto.StorySearchDto;

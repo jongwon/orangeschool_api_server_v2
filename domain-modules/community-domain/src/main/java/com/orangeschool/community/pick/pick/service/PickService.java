@@ -1,12 +1,12 @@
-package com.orangeschool.community.pick.pick;
+package com.orangeschool.community.pick.pick.service;
 
+import com.orangeschool.member.api.service.MemberInfoProvider;
+import com.orangeschool.member.api.dto.MemberInfo;
 import com.orangeschool.common.dto.request.IdListDto;
 import com.orangeschool.common.dto.request.UpdateActivationDto;
 import com.orangeschool.common.response.CustomException;
 import com.orangeschool.common.response.ResponseCode;
-import com.orangeschool.common.utils.FileManagement;
-import com.orangeschool.community.manager.entity.Manager;
-import com.orangeschool.community.manager.repository.ManagerRepository;
+import com.orangeschool.infra.util.FileManagement;
 import com.orangeschool.community.pick.pick.dto.CreatePickDto;
 import com.orangeschool.community.pick.pick.dto.PickDto;
 import com.orangeschool.community.pick.pick.dto.PickFilterDto;
@@ -33,12 +33,10 @@ public class PickService {
     private final PickRepository pickRepository;
     private final PickImageRepository pickImageRepository;
     private final FileManagement fileManagement;
-    private final ManagerRepository managerRepository;
 
     @Transactional
-    public void create(Long managerId, CreatePickDto createPickDto, List<MultipartFile> files) throws Exception {
+    public void create(Long memberId, CreatePickDto createPickDto, List<MultipartFile> files) throws Exception {
 
-        Optional<Manager> managerOptional = managerRepository.findById(managerId);
 
         if (managerOptional.isEmpty()) {
             throw new CustomException(ResponseCode.NOT_FOUND);

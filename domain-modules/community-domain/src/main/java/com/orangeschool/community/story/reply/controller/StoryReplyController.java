@@ -1,5 +1,6 @@
 package com.orangeschool.community.story.reply;
 
+import com.orangeschool.community.story.reply.service.StoryReplyService;
 
 import com.orangeschool.common.response.ResponseCode;
 import com.orangeschool.common.response.ResponseDto;
@@ -29,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 public class StoryReplyController {
 
     private final StoryReplyService storyReplyService;
-    private final JwtTokenProvider jwtTokenProvider;
+    
 
 
     @Operation(summary = "등록")
